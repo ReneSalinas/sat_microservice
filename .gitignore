@@ -1,0 +1,23 @@
+# Entorno virtual
+.venv/
+
+# Variables de entorno
+.env
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Certificados SAT
+certs/
+
+# VSCode
+.vscode/
+
+# Archivos temporales
+*.log
+*.zip
+
+# Sistema
+.DS_Store
+Thumbs.db
