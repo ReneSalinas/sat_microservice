@@ -1,12 +1,26 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, UploadFile, File, Form
+
 from app.services.verificacion_service import verificar_solicitud
 
-router = APIRouter()
+router = APIRouter(
+    tags=["Verificacion"]
+)
 
 
-@router.get("/verificacion/{id_solicitud}")
-def verificacion(id_solicitud: str):
+@router.post("/verificacion/{id_solicitud}")
+async def verificacion(
+    id_solicitud: str,
+    cert_password: str = Form(...),
+    cer_file: UploadFile = File(...),
+    key_file: UploadFile = File(...)
+):
 
-    respuesta = verificar_solicitud(id_solicitud)
+    cer_bytes = await cer_file.read()
+    key_bytes = await key_file.read()
 
-    return respuesta
+    return verificar_solicitud(
+        id_solicitud=id_solicitud,
+        cert_password=cert_password,
+        cer_bytes=cer_bytes,
+        key_bytes=key_bytes
+    )

@@ -8,9 +8,18 @@ ESTADOS_SOLICITUD = {
     5: "Rechazada"
 }
 
-def verificar_solicitud(id_solicitud):
+def verificar_solicitud(
+    id_solicitud,
+    cert_password,
+    cer_bytes,
+    key_bytes
+):
 
-    sat = conectar_sat()
+    sat = conectar_sat(
+        cert_password=cert_password,
+        cer_bytes=cer_bytes,
+        key_bytes=key_bytes
+    )
 
     respuesta = sat.recover_comprobante_status(
         id_solicitud

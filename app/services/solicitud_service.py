@@ -39,12 +39,19 @@ from app.services.sat_service import conectar_sat
 def crear_solicitud(
     fecha_inicial,
     fecha_final,
-    rfc_emisor
+    rfc_emisor,
+    cert_password,
+    cer_bytes,
+    key_bytes
 ):
 
     try:
 
-        sat = conectar_sat()
+        sat = conectar_sat(
+            cert_password=cert_password,
+            cer_bytes=cer_bytes,
+            key_bytes=key_bytes
+        )
 
         respuesta = sat.recover_comprobante_emitted_request(
             fecha_inicial=fecha_inicial,

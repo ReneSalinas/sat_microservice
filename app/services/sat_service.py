@@ -1,20 +1,17 @@
-from satcfdi.pacs.sat import SAT
 from satcfdi.models.signer import Signer
-from app.config import settings
+from satcfdi.pacs.sat import SAT
 
 
-def conectar_sat():
-
-    with open(settings.CERT_PATH, "rb") as cer_file:
-        cer = cer_file.read()
-
-    with open(settings.KEY_PATH, "rb") as key_file:
-        key = key_file.read()
+def conectar_sat(
+    cert_password,
+    cer_bytes,
+    key_bytes
+):
 
     fiel = Signer.load(
-        certificate=cer,
-        key=key,
-        password=settings.CERT_PASSWORD
+        certificate=cer_bytes,
+        key=key_bytes,
+        password=cert_password
     )
 
     sat = SAT(fiel)

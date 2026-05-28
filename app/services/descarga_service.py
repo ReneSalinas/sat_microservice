@@ -3,9 +3,17 @@ import base64
 import os
 
 
-def descargar_paquete(package_id):
+def descargar_paquete(package_id,
+    cert_password,
+    cer_bytes,
+    key_bytes
+):
 
-    sat = conectar_sat()
+    sat = conectar_sat(
+        cert_password=cert_password,
+        cer_bytes=cer_bytes,
+        key_bytes=key_bytes
+    )
 
     metadata, paquete = sat.recover_comprobante_download(
         package_id
