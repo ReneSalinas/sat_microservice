@@ -1,6 +1,6 @@
 from fastapi import APIRouter, UploadFile, File, Form
 from datetime import datetime
-
+from typing import Literal
 from app.services.solicitud_service import crear_solicitud
 
 router = APIRouter(
@@ -12,7 +12,8 @@ router = APIRouter(
 async def solicitud(
     fecha_inicial: datetime = Form(...),
     fecha_final: datetime = Form(...),
-    rfc_emisor: str = Form(...),
+    tipo: Literal["emitidos", "recibidos"] = Form(...),
+    rfc: str = Form(...),
     cert_password: str = Form(...),
     cer_file: UploadFile = File(...),
     key_file: UploadFile = File(...)
@@ -24,7 +25,8 @@ async def solicitud(
     return crear_solicitud(
         fecha_inicial=fecha_inicial,
         fecha_final=fecha_final,
-        rfc_emisor=rfc_emisor,
+        tipo=tipo,
+        rfc=rfc,
         cert_password=cert_password,
         cer_bytes=cer_bytes,
         key_bytes=key_bytes

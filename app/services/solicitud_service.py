@@ -35,11 +35,11 @@
 from fastapi import HTTPException
 from app.services.sat_service import conectar_sat
 
-
 def crear_solicitud(
     fecha_inicial,
     fecha_final,
-    rfc_emisor,
+    tipo,
+    rfc,
     cert_password,
     cer_bytes,
     key_bytes
@@ -53,11 +53,28 @@ def crear_solicitud(
             key_bytes=key_bytes
         )
 
-        respuesta = sat.recover_comprobante_emitted_request(
-            fecha_inicial=fecha_inicial,
-            fecha_final=fecha_final,
-            rfc_emisor=rfc_emisor
-        )
+        if tipo == "emitidos":
+
+            respuesta = sat.recover_comprobante_emitted_request(
+                fecha_inicial=fecha_inicial,
+                fecha_final=fecha_final,
+                rfc_emisor=rfc
+            )
+
+        elif tipo == "recibidos":
+
+            respuesta = sat.recover_comprobante_received_request(
+                fecha_inicial=fecha_inicial,
+                fecha_final=fecha_final,
+                rfc_receptor=rfc
+            )
+
+        else:
+
+            raise HTTPException(
+                status_code=400,
+                detail="Tipo inválido. Usa 'emitidos' o 'recibidos'"
+            )
 
         cod_estatus = respuesta.get("CodEstatus")
 
